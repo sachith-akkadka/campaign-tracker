@@ -1,7 +1,7 @@
 // backend/routes/campaigns.js
 const express = require('express');
 const router = express.Router();
-const Campaign = require('../models/Campaign');
+const Campaign = require('../models/campaign');
 
 // GET /api/campaigns  (support ?search & ?status)
 router.get('/', async (req, res) => {
