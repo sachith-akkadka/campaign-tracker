@@ -8,7 +8,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: '*', // Allow all origins (for dev). Replace with frontend URL in production if needed.
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
 app.use(express.json());
@@ -16,7 +16,7 @@ app.use(express.json());
 // Routes
 app.use('/api/campaigns', campaignsRouter);
 
-// Health check route (important for Vercel)
+// Health check route
 app.get('/', (req, res) => {
   res.send('✅ Campaign Tracker Backend is running!');
 });
@@ -31,12 +31,11 @@ const connectDB = async () => {
     console.log('✅ MongoDB connected successfully');
   } catch (err) {
     console.error('❌ MongoDB connection failed:', err.message);
-    process.exit(1);
   }
 };
 
-// Start server
-const PORT = process.env.PORT || 5000;
-connectDB().then(() => {
-  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-});
+// Connect to DB once when the function initializes
+connectDB();
+
+// ✅ Export the Express app for Vercel
+module.exports = app;
